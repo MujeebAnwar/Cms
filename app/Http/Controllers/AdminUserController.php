@@ -133,6 +133,6 @@ class AdminUserController extends Controller
         $photo = Photo::create(['path'=>$name]);
 
         $this->input['photo_id']=$photo->id;
-
+        
     }
 }
