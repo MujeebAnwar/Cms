@@ -44,19 +44,19 @@
 <div class="form-group">
 
      {!!Form::label('role_id', 'Role:')!!}
-     {!!Form::select('role',[''=>'Choose Option']+$roles,null, ['class'=>'form-control'])!!}
+     {!!Form::select('role_id',[''=>'Choose Option']+$roles,null, ['class'=>'form-control'])!!}
 
-    @error('role')
+    @error('role_id')
     <span class="text-danger" role="alert">
         <strong >{{$message }}</strong>
     </span>
     @enderror
 </div>
 <div class="form-group">
-    {!!Form::label('file', 'Photo:')!!}
-    {!!Form::file('file',null, ['class'=>'form-control'])!!}
+    {!!Form::label('photo_id', 'Photo:')!!}
+    {!!Form::file('photo_id',null, ['class'=>'form-control'])!!}
 
-    @error('file')
+    @error('photo_id')
         <span class="text-danger" role="alert">
             <strong >{{$message }}</strong>
         </span>

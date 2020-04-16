@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Photo');
     }
+
+    public function defaultImage()
+    {
+        return '/photos/default.png';
+    }
 }

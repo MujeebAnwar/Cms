@@ -5,7 +5,8 @@ use App\Http\Requests\UsersRequest;
 use App\Photo;
 use App\Role;
 use App\User;
-
+use Illuminate\Support\Facades\URL;
+use Illuminate\Validation\Rule;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -17,6 +18,8 @@ class AdminUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    protected  $input=[];
     public function index()
     {
         $users = User::all();
@@ -43,29 +46,19 @@ class AdminUserController extends Controller
      */
     public function store(UsersRequest $request)
     {
-        $input = $request->all();
+        $this->input = $request->all();
 
 
-        if ($file = $request->file('file'))
+        if ($file = $request->file('photo_id'))
         {
-
-            $name = Carbon::now()->format('y-m-d').'_'.$file->getClientOriginalName();
-
-            $file->move('photos',$name);
-
-            $photo = Photo::create(['path'=>$name]);
-
-            $input['photo_id']=$photo->id;
-
-
+           $this->uploadImage($file);
         }
-//                dd($input);
-//        dump($input['photo_id']);
-        $input['password'] = bcrypt($request->password);
-//
-        User::create($input);
 
-        return redirect('/admin/users');
+        $this->input['password'] = bcrypt($request->password);
+
+        User::create($this->input);
+
+        return redirect(URL::to('admin/users'));
 
     }
 
@@ -86,10 +79,13 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+
+        $roles = Role::pluck('name','id')->all();
+        return view('admin.users.edit',compact('user','roles'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -98,9 +94,19 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UsersRequest $request,User $user)
     {
-        //
+        $this->input = $request->all();
+
+        if ($file = $request->file('photo_id'))
+        {
+           $this->uploadImage($file);
+        }
+
+        $user->update($this->input);
+
+        return redirect(URL::to('admin/users'));
+
     }
 
     /**
@@ -112,5 +118,21 @@ class AdminUserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * @param $file
+     * Upload Files
+     */
+    public function uploadImage($file)
+    {
+        $name = Carbon::now()->format('y-m-d').'_'.$file->getClientOriginalName();
+
+        $file->move('photos',$name);
+
+        $photo = Photo::create(['path'=>$name]);
+
+        $this->input['photo_id']=$photo->id;
+
     }
 }

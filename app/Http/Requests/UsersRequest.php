@@ -24,12 +24,21 @@ class UsersRequest extends FormRequest
     public function rules()
     {
 
+        $user = \Request::segments();
+        $id = '';
+//
+        if (count($user)>2)
+        {
+            $id = $user[2];
+        }
+
+
         return [
             'name' =>'required',
-            'email' => 'required|email|unique:users',
-            'password' =>'required',
-            'role' =>'required',
-            'file' =>'required|image'
+            'email' => 'required|unique:users,email,'.$id,
+            'password' =>count($user)>2 ? '' :'required',
+            'role_id' =>'required',
+            'photo_id' =>count($user)>2?'':'required|image'
 
 
             ];
@@ -41,7 +50,10 @@ class UsersRequest extends FormRequest
         return [
             'name.required' => 'Name Field Is Required',
             'email.required' =>'Email Required',
-            'email.email' =>'Please Enter Valid Email Format'
+            'email.email' =>'Please Enter Valid Email Format',
+            'role_id.required' => 'Role Required',
+            'photo_id.required' =>'Photo Required',
+            'photo_id.image' =>'Only Images Allowed',
         ];
     }
 }
