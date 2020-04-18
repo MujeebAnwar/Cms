@@ -39,7 +39,6 @@ class AdminPostController extends Controller
     {
         //
         $categories = Category::pluck('name','id')->all();
-
         return view('admin.posts.create',compact('categories'));
     }
 
@@ -56,10 +55,8 @@ class AdminPostController extends Controller
         $this->data = Validator::make($request->all(), [
 
             'title' => 'required||max:256',
-            'category_id'=>'required',
             'photo_id'=>'required|image',
             'body' => 'required',
-
 
             ],
 
@@ -69,7 +66,7 @@ class AdminPostController extends Controller
                 'body.required' =>'Description Required',
                 'photo_id.required' =>'Photo Required',
                 'photo_id.image' =>'Only Image Allowed',
-                'category_id.required' =>'Category Required'
+
             ]
         )->validate();
 
@@ -78,6 +75,11 @@ class AdminPostController extends Controller
        {
            $this->uploadImage($file);
        }
+
+        if ($request->category_id!=null)
+        {
+            $this->data['category_id'] = $request->category_id;
+        }
 
         Auth::user()->posts()->create($this->data);
         return redirect('admin/posts');
@@ -122,7 +124,6 @@ class AdminPostController extends Controller
         $this->data = Validator::make($request->all(), [
 
             'title' => 'required||max:256',
-            'category_id'=>'required',
             'photo_id'=>'image',
             'body' => 'required',
 
@@ -134,16 +135,19 @@ class AdminPostController extends Controller
                 'title.max'=>'Maximum 256 Character Allowed',
                 'body.required' =>'Description Required',
                 'photo_id.image' =>'Only Image Allowed',
-                'category_id.required' =>'Category Required'
+
             ]
         )->validate();
 
 
-        unlink(public_path().$post->photo->path);
-        $post->photo->delete();
+//        dd($post);
+
+
         if ($file=$request->file('photo_id'))
         {
            $this->uploadImage($file);
+           unlink(public_path().$post->photo->path);
+           $post->photo->delete();
         }
 
         $post->update($this->data);
@@ -157,9 +161,14 @@ class AdminPostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
         //
+
+        unlink(public_path().$post->photo->path);
+        $post->delete();
+        return redirect('admin/posts');
+
     }
 
     public function uploadImage($file)

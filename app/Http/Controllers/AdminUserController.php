@@ -98,10 +98,12 @@ class AdminUserController extends Controller
     {
         $this->input = $request->all();
 
-        $user->photo->delete();
+
         if ($file = $request->file('photo_id'))
         {
            $this->uploadImage($file);
+            unlink(public_path().$user->photo->path);
+            $user->photo->delete();
         }
 
         $user->update($this->input);
@@ -118,9 +120,12 @@ class AdminUserController extends Controller
      */
     public function destroy(User $user)
     {
-        unlink(public_path().$user->photo->path);
+        if ($user->photo)
+        {
+            unlink(public_path().$user->photo->path);
+        }
 
-        $user->photo->delete();
+        $user->delete();
         return redirect(URL::to('admin/users'));
     }
 

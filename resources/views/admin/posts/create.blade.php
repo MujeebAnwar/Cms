@@ -26,6 +26,7 @@
         {!!Form::label('category_id', 'Category')!!}
         {!!Form::select('category_id',[''=>'Choose Option']+$categories,null, ['class'=>'form-control'])!!}
 
+
         @error('category_id')
             <span class="text-danger" role="alert">
                 <strong >{{$message }}</strong>

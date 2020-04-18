@@ -14,12 +14,19 @@ class CreatePostsTable extends Migration
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->id()->index();
-            $table->unsignedBigInteger('user_id')->unsigned()->index();
-            $table->unsignedBigInteger('category_id')->unsigned()->index();
-            $table->unsignedBigInteger('photo_id')->unsigned()->index();
+            $table->id();
+            $table->unsignedBigInteger('user_id')->index();
+            $table->unsignedBigInteger('category_id')->index()->default(0);
+            $table->unsignedBigInteger('photo_id')->index();
             $table->string('title');
             $table->text('body');
+
+            /**
+             * Cascade On Delete
+             */
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -6,7 +6,7 @@
 
 
     <div class="col-md-3">
-        <img src="{{$post->photo?$post->photo->path:$post->defaultImage()}}" alt="" class="img-responsive img-rounded">
+        <img src="{{$post->photo?$post->photo->path:$post->user->defaultImage()}}" alt="" class="img-responsive img-rounded">
     </div>
 
     <div class="col-md-9">
@@ -73,7 +73,7 @@
         {!! Form::close() !!}
 
 
-        {!! Form::open(['method' => 'DELETE','action'=>['AdminUserController@destroy',$post->id]]) !!}
+        {!! Form::open(['method' => 'DELETE','action'=>['AdminPostController@destroy',$post->id]]) !!}
 
 
         <div class="form-group">

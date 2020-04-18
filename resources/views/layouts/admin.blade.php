@@ -158,17 +158,8 @@
 
 
                     <li>
-                        <a href="#"><i class="fa fa-wrench fa-fw"></i>Categories<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="/categories">All Categories</a>
-                            </li>
+                        <a href="{{URL::to('admin/categories')}}"><i class="fa fa-wrench fa-fw"></i>Categories<span class="fa arrow"></span></a>
 
-                            <li>
-                                <a href="/categories/create">Create Category</a>
-                            </li>
-
-                        </ul>
                         <!-- /.nav-second-level -->
                     </li>
 

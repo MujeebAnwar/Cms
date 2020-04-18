@@ -20,14 +20,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/admin',function(){
+Route::get('/admin',['middleware'=>'admin',function(){
     return view('admin.index');
-})->name('admin');
+}])->name('admin');
 
 Route::group(['middleware'=>'admin'],function (){
 
     Route::resource('admin/users','AdminUserController');
     Route::resource('admin/posts','AdminPostController');
+    Route::resource('admin/categories','AdminCategoriesController');
+
 
 });
 
