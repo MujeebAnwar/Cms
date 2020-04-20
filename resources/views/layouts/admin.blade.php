@@ -152,6 +152,14 @@
                                 <a href="{{URL::to('admin/posts/create')}}">Create Post</a>
                             </li>
 
+                            <li>
+                                <a href="{{URL::to('admin/comments')}}">All Comments</a>
+                            </li>
+
+                            <li>
+                                <a href="{{URL::to('admin/comment/replies')}}">All Replies</a>
+                            </li>
+
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
@@ -337,6 +345,7 @@
 <script src="{{asset('js/app.js')}}"></script>
 
 @yield('script')
+
 @yield('footer')
 
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPhotoIdColumnIntoUsers extends Migration
+class AddPhotoIdToCommentReply extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class AddPhotoIdColumnIntoUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('comment_replies', function (Blueprint $table) {
             //
-            $table->unsignedBigInteger('photo_id')->index()->nullable()->default(0);
-
+            $table->unsignedBigInteger('photo_id')->index();
         });
     }
 
@@ -27,10 +26,9 @@ class AddPhotoIdColumnIntoUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('comment_replies', function (Blueprint $table) {
             //
             $table->dropColumn('photo_id');
-
         });
     }
 }

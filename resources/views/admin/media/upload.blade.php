@@ -20,3 +20,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/min/dropzone.min.js"></script>
 @stop
+
+
+
+
+

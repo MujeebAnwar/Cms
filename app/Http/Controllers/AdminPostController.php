@@ -56,6 +56,7 @@ class AdminPostController extends Controller
 
             'title' => 'required||max:256',
             'photo_id'=>'required|image',
+            'category_id'=>'required',
             'body' => 'required',
 
             ],
@@ -63,6 +64,7 @@ class AdminPostController extends Controller
             [
                 'title.required'=>'Title Required',
                 'title.max'=>'Maximum 256 Character Allowed',
+                'category_id.required' =>'Category Required',
                 'body.required' =>'Description Required',
                 'photo_id.required' =>'Photo Required',
                 'photo_id.image' =>'Only Image Allowed',
@@ -125,6 +127,7 @@ class AdminPostController extends Controller
 
             'title' => 'required||max:256',
             'photo_id'=>'image',
+            'category_id'=>'required',
             'body' => 'required',
 
 
@@ -132,6 +135,7 @@ class AdminPostController extends Controller
 
             [
                 'title.required'=>'Title Required',
+                'category_id.required' =>'Category Required',
                 'title.max'=>'Maximum 256 Character Allowed',
                 'body.required' =>'Description Required',
                 'photo_id.image' =>'Only Image Allowed',
@@ -180,5 +184,14 @@ class AdminPostController extends Controller
         $photo = Photo::create(['path'=>$photo_name]);
 
         $this->data['photo_id'] = $photo->id;
+    }
+
+    public function post(Post $post)
+
+    {
+
+        $categories = Category::all();
+        $comments = $post->comments()->whereIsActive(1)->get();
+        return view('public.post',compact('post','categories','comments'));
     }
 }

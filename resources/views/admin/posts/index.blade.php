@@ -13,7 +13,9 @@
         <th>Body</th>
         <th>User</th>
         <th>Category</th>
-{{--        <th></th>--}}
+        <th>Post</th>
+        <th>Comments</th>
+        <th>Replies</th>
         <th>Created</th>
         <th>Updated</th>
     </tr>
@@ -31,8 +33,12 @@
                 <td>{{$post->body}}</td>
                 <td>{{$post->user?$post->user->name:'No User'}}</td>
                 <td>{{$post->category?$post->category->name:'UnCategorize'}}</td>
+                <td><a href="{{route('post.home',$post->id)}}">View Post</a></td>
+                <td><a href="{{URL::to('admin/comments',$post->id)}}">View Comments</a></td>
+                <td><a href="{{URL::to('admin/comment/replies',$post->id)}}">View Replies</a></td>
                 <td>{{$post->created_at->diffForHumans()}}</td>
                 <td>{{$post->updated_at->diffForHumans()}}</td>
+
             </tr>
         @endforeach
     @endif

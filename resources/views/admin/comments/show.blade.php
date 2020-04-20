@@ -3,9 +3,9 @@
 @section('content')
 
 
-    @if(count($replies) > 0)
+    @if(count($comments) > 0)
 
-        <h1>Replies</h1>
+        <h1>Comments</h1>
 
         <table class="table table-hover">
             <thead>
@@ -20,20 +20,20 @@
 
             </thead>
             <tbody>
-            @foreach($replies as $reply)
+            @foreach($comments as $comment)
                 <tr>
-                    <td>{{$reply->id}}</td>
-                    <td>{{$reply->author}}</td>
-                    <td>{{$reply->email}}</td>
-                    <td>{{$reply->body}}</td>
-                    <td><a href="{{route('post.home',$reply->comment->post->id)}}">View Post</a></td>
-                    <td><a href="{{route('single.reply.comment',$reply->id)}}">View Comment</a></td>
+                    <td>{{$comment->id}}</td>
+                    <td>{{$comment->author}}</td>
+                    <td>{{$comment->email}}</td>
+                    <td>{{$comment->body}}</td>
+                    <td><a href="{{route('post.home',$comment->post->id)}}">View Post</a></td>
+                    <td><a href="{{route('post.home',$comment->post->id)}}">View Replies</a></td>
 
                     <td>
 
-                        {!! Form::open(['method' => 'PATCH','action'=>['CommentRepliesController@update',$reply->id]]) !!}
+                        {!! Form::open(['method' => 'PATCH','action'=>['PostCommentsController@update',$comment->id]]) !!}
 
-                        @if($reply->is_active)
+                        @if($comment->is_active)
 
                             <input type="hidden" name="is_active" value="0">
                             <div class="form-group">
@@ -54,7 +54,7 @@
 
                     <td>
 
-                        {!! Form::open(['method' => 'DELETE','action'=>['CommentRepliesController@destroy',$reply->id]]) !!}
+                        {!! Form::open(['method' => 'DELETE','action'=>['PostCommentsController@destroy',$comment->id]]) !!}
 
                         <div class="form-group">
                             {!! Form::submit('Delete',['class'=>'btn btn-danger']) !!}

@@ -3,9 +3,9 @@
 @section('content')
 
 
-    @if(count($replies) > 0)
+    @if($reply)
 
-        <h1>Replies</h1>
+        <h1>Comment</h1>
 
         <table class="table table-hover">
             <thead>
@@ -20,20 +20,21 @@
 
             </thead>
             <tbody>
-            @foreach($replies as $reply)
+
+
                 <tr>
-                    <td>{{$reply->id}}</td>
-                    <td>{{$reply->author}}</td>
-                    <td>{{$reply->email}}</td>
-                    <td>{{$reply->body}}</td>
+                    <td>{{$reply->comment->id}}</td>
+                    <td>{{$reply->comment->author}}</td>
+                    <td>{{$reply->comment->email}}</td>
+                    <td>{{$reply->comment->body}}</td>
                     <td><a href="{{route('post.home',$reply->comment->post->id)}}">View Post</a></td>
-                    <td><a href="{{route('single.reply.comment',$reply->id)}}">View Comment</a></td>
+                    <td><a href="{{route('single.comment.reply',$reply->comment->id)}}">View Reply</a></td>
 
                     <td>
 
-                        {!! Form::open(['method' => 'PATCH','action'=>['CommentRepliesController@update',$reply->id]]) !!}
+                        {!! Form::open(['method' => 'PATCH','action'=>['PostCommentsController@update',$reply->comment->id]]) !!}
 
-                        @if($reply->is_active)
+                        @if($reply->comment->is_active)
 
                             <input type="hidden" name="is_active" value="0">
                             <div class="form-group">
@@ -54,7 +55,7 @@
 
                     <td>
 
-                        {!! Form::open(['method' => 'DELETE','action'=>['CommentRepliesController@destroy',$reply->id]]) !!}
+                        {!! Form::open(['method' => 'DELETE','action'=>['PostCommentsController@destroy',$reply->comment->id]]) !!}
 
                         <div class="form-group">
                             {!! Form::submit('Delete',['class'=>'btn btn-danger']) !!}
@@ -66,13 +67,13 @@
 
                 </tr>
 
-            @endforeach
+
 
             </tbody>
         </table>
 
     @else
-        <h1 class="text-center">No Comments</h1>
+        <h1 class="text-center">No </h1>
     @endif
 
 

@@ -8,6 +8,16 @@
 #admin-page {
     padding-top: 10px;
 }
+#nested-comment {
+ margin-top: 60px;
+}
+
+#reply-form{
+    margin-bottom: 30px;
+}
+.comment-reply{
+    display: none;
+}
 .user-row:last-child {
     margin-bottom: 0;
 }

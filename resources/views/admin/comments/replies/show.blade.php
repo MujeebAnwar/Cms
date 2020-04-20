@@ -3,7 +3,7 @@
 @section('content')
 
 
-    @if(count($replies) > 0)
+    @if(count($comments) > 0)
 
         <h1>Replies</h1>
 
@@ -20,14 +20,15 @@
 
             </thead>
             <tbody>
-            @foreach($replies as $reply)
+            @foreach($comments as $comment)
+
+                @foreach($comment->replies as $reply)
                 <tr>
                     <td>{{$reply->id}}</td>
                     <td>{{$reply->author}}</td>
                     <td>{{$reply->email}}</td>
                     <td>{{$reply->body}}</td>
                     <td><a href="{{route('post.home',$reply->comment->post->id)}}">View Post</a></td>
-                    <td><a href="{{route('single.reply.comment',$reply->id)}}">View Comment</a></td>
 
                     <td>
 
@@ -66,13 +67,14 @@
 
                 </tr>
 
+                    @endforeach
             @endforeach
 
             </tbody>
         </table>
 
     @else
-        <h1 class="text-center">No Comments</h1>
+        <h1 class="text-center">No Replies</h1>
     @endif
 
 

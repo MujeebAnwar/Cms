@@ -102,8 +102,13 @@ class AdminUserController extends Controller
         if ($file = $request->file('photo_id'))
         {
            $this->uploadImage($file);
-            unlink(public_path().$user->photo->path);
-            $user->photo->delete();
+           if ($user->photo)
+           {
+               unlink(public_path().$user->photo->path);
+               $user->photo->delete();
+           }
+
+
         }
 
         $user->update($this->input);
