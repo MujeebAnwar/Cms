@@ -13,7 +13,7 @@ class AdminPhotoController extends Controller
 
     public function index()
     {
-        $photos  = Photo::all();
+        $photos  = Photo::paginate(10);
         return view('admin.media.index',compact('photos'));
     }
 
@@ -47,6 +47,38 @@ class AdminPhotoController extends Controller
         unlink(public_path().$photo->path);
         $photo->delete();
 
-        return redirect(URL::to('admin/media'));
+
+    }
+
+
+    /**
+     * Delete Bulk Media
+     */
+
+    public function deleteMedia(Request $request)
+    {
+        if (isset($request->delete_single))
+        {
+            $this->destroy($request->photo);
+            return redirect()->back();
+        }
+
+        if (isset($request->delete_all) && $request->checkBoxArray!='delete')
+        {
+            $photos = Photo::findOrFail($request->checkBoxArray);
+
+
+            foreach ($photos as $photo)
+            {
+                $photo->delete();
+            }
+        }
+        else
+        {
+            return redirect()->back()->with(['data' => 'Please Select Atleast One option']);
+        }
+
+        return redirect()->back();
+
     }
 }

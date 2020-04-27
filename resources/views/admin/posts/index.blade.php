@@ -10,7 +10,6 @@
         <th>Id</th>
         <th>Photo</th>
         <th>Title</th>
-        <th>Body</th>
         <th>User</th>
         <th>Category</th>
         <th>Post</th>
@@ -30,7 +29,6 @@
                 <td>{{$post->id}}</td>
                 <td><img height="60" src="{{$post->photo?$post->photo->path:$post->user->defaultImage()}}" alt=""></td>
                 <td><a href="{{URL::to('admin/posts/'.$post->id.'/edit')}}">{{$post->title}}</a></td>
-                <td>{{$post->body}}</td>
                 <td>{{$post->user?$post->user->name:'No User'}}</td>
                 <td>{{$post->category?$post->category->name:'UnCategorize'}}</td>
                 <td><a href="{{route('post.home',$post->id)}}">View Post</a></td>
@@ -44,4 +42,11 @@
     @endif
     </tbody>
 </table>
+    <div class="row">
+       <div class="col-sm-6 col-sm-offset-5">
+           {{$posts->links()}}
+       </div>
+    </div>
+
+
 @stop

@@ -20,7 +20,7 @@ class CommentRepliesController extends Controller
         //
 
 
-        $replies=CommentReply::all();
+        $replies=CommentReply::paginate(10);
         return view('admin.comments.replies.index',compact('replies'));
     }
 
@@ -126,6 +126,8 @@ class CommentRepliesController extends Controller
 
         $comment= Comment::findOrFail($id);
 
-        return view('admin.comments.replies.single',compact('comment'));
+        $replies=$comment->replies()->paginate(10);
+
+        return view('admin.comments.replies.single',compact('replies'));
     }
 }

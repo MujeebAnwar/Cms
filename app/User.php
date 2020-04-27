@@ -55,7 +55,7 @@ class User extends Authenticatable
     {
         if ($this->role)
         {
-            if ($this->role->id == 1 && $this->is_active ==1)
+            if ($this->role->name == 'admin' && $this->is_active ==1)
             {
                 return true;
             }

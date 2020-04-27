@@ -71,5 +71,10 @@
 
           @endif
 
+        <div class="col-sm-6 col-sm-offset-2">
+            {{$categories->links()}}
+        </div>
     </div>
+
+
 @stop

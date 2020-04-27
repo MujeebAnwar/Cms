@@ -13,24 +13,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
 Auth::routes();
 
 
-Route::get('/post/{post}','AdminPostController@post')->name('post.home');
-Route::get('/admin',['middleware'=>'admin',function(){
-    return view('admin.index');
-}])->name('admin');
+/**
+ * Route For Public Post
+ */
 
+Route::get('/post/{post}','AdminPostController@post')->name('post.home');
+Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index')->name('home');
+
+/**
+ * @Admin Route With MiddleWare
+ */
 Route::group(['middleware'=>'admin'],function (){
+
+
+    Route::get('/admin','AdminController@index')->name('admin');
 
     Route::resource('admin/users','AdminUserController');
     Route::resource('admin/posts','AdminPostController');
     Route::resource('admin/categories','AdminCategoriesController');
+    Route::post('delete/media','AdminPhotoController@deleteMedia')->name('delete.media');
     Route::get('admin/media/upload','AdminPhotoController@upload')->name('admin.media.upload');
     Route::resource('admin/media','AdminPhotoController');
     Route::resource('admin/comments','PostCommentsController');
@@ -46,4 +53,9 @@ Route::group(['middleware'=>'auth'],function(){
     Route::post('comment/reply','CommentRepliesController@commentReply')->name('comment.reply');
 
 });
-Route::get('/home', 'HomeController@index')->name('home');
+
+
+//Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+//    \UniSharp\LaravelFilemanager\Lfm::routes();
+//});
+

@@ -3,7 +3,7 @@
 @section('content')
 
 
-    @if(count($comment->replies)>0)
+    @if(count($replies)>0)
 
         <h1>Replies</h1>
 
@@ -14,14 +14,12 @@
                 <th>Author</th>
                 <th>Email</th>
                 <th>Body</th>
-
-
             </tr>
 
             </thead>
             <tbody>
 
-            @foreach($comment->replies as $reply)
+            @foreach($replies as $reply)
 
 
                     <tr>
@@ -36,7 +34,7 @@
 
                             {!! Form::open(['method' => 'PATCH','action'=>['CommentRepliesController@update',$reply->comment->id]]) !!}
 
-                            @if($comment->is_active)
+                            @if($reply->is_active)
 
                                 <input type="hidden" name="is_active" value="0">
                                 <div class="form-group">
@@ -75,9 +73,11 @@
             </tbody>
         </table>
 
+        <div class="col-sm-6 col-sm-offset-5">
+            {{$replies->links()}}
+        </div>
     @else
         <h1 class="text-center">No Replies</h1>
     @endif
-
 
 @stop

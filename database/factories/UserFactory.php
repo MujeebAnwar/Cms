@@ -2,6 +2,11 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\Category;
+use App\Comment;
+use App\CommentReply;
+use App\Post;
+use App\Role;
 use App\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
@@ -20,9 +25,68 @@ use Illuminate\Support\Str;
 $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
+        'role_id' => $faker->numberBetween(1,3),
+        'is_active' =>1,
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'remember_token' => Str::random(10),
+    ];
+});
+
+
+$factory->define(Post::class, function (Faker $faker) {
+    return [
+
+        'category_id' => $faker->numberBetween(1,10),
+        'photo_id' => 1,
+        'title' => $faker->sentence(7,10),
+        'body' => $faker->paragraph(rand(10,15)),
+
+    ];
+});
+
+$factory->define(Role::class, function (Faker $faker) {
+    return [
+
+        'name' => $faker->randomElement(['admin','author','subscriber']),
+
+
+    ];
+});
+
+
+$factory->define(Category::class, function (Faker $faker) {
+    return [
+        'name' => $faker->randomElement(['Php','Javascript','Java']),
+    ];
+});
+
+
+
+$factory->define(Comment::class, function (Faker $faker) {
+    return [
+
+        'post_id' => $faker->numberBetween(1,10),
+        'is_active' => 1,
+        'author' => $faker->name,
+        'photo' =>'default.png',
+        'email' =>$faker->safeEmail,
+        'body' =>$faker->paragraph
+
+    ];
+});
+
+
+
+$factory->define(CommentReply::class, function (Faker $faker) {
+    return [
+
+        'is_active' => 1,
+        'author' => $faker->name,
+        'photo_id' =>1,
+        'email' =>$faker->safeEmail,
+        'body' =>$faker->paragraph
+
     ];
 });

@@ -28,12 +28,17 @@
               <td>{{$user->email}}</td>
               <td>{{$user->role?$user->role->name:'No Role'}}</td>
               <td>{{$user->is_active==1 ?'Active':'Not Active'}}</td>
-              <td>{{$user->created_at->diffForHumans()}}</td>
-              <td>{{$user->updated_at->diffForHumans()}}</td>
+              <td>{{$user->created_at?$user->created_at->diffForHumans():'Not Set'}}</td>
+              <td>{{$user->updated_at?$user->updated_at->diffForHumans():'Not Set'}}</td>
           </tr>
           @endforeach
         @endif
         </tbody>
       </table>
 
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-5">
+            {{$users->render()}}
+        </div>
+    </div>
 @endsection
